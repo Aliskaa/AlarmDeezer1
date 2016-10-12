@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.project.lucky.alarmdeezer">
+
+    <!-- Obviously needed to download tracks and send request to the API -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Needed to know if network is available before trying to download a track -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- Enable the device to keep the screen on when music is playing -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- Enable using the Visualizer -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/DeezerDemoTheme">
+
+
+        <activity android:name=".HomeActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Clock activity -->
+        <activity
+            android:name=".OptionsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- Setting activity -->
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- Music activity -->
+        <activity
+            android:name=".MusicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- Visualizer activity -->
+        <activity
+            android:name=".VisualizerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserPlaylists activity -->
+        <activity
+            android:name=".UserPlaylistsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserAlbums activity -->
+        <activity
+            android:name=".UserAlbumsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserArtists activity -->
+        <activity
+            android:name=".UserArtistsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserRadios activity -->
+        <activity
+            android:name=".UserRadiosActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserTopTracks activity -->
+        <activity
+            android:name=".UserTopTracksActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserFlow activity -->
+        <activity
+            android:name=".UserFlowActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+
+        <!-- UserCustomTrackList activity -->
+        <activity
+            android:name=".UserCustomTrackListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeezerDemoThemeNoBar"/>
+    </application>
+
+</manifest>

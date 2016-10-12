@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/header_background"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ImageButton
+        android:id="@+id/button_previous"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/background_menu"
+        android:src="@drawable/ic_action_previous"/>
+
+    <TimePicker
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:id="@+id/timePicker"
+        android:timePickerMode="spinner"
+        android:layout_below="@+id/button_previous"/>
+
+    <TextView
+        android:id="@+id/repeat_text"
+        android:text="@string/repeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timePicker"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+    <LinearLayout
+        android:id="@+id/days"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/repeat_text" >
+
+        <ToggleButton
+            android:textOff="M"
+            android:textOn="M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monday"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:textOff="T"
+            android:textOn="T"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tuesday"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:textOff="W"
+            android:textOn="W"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wednesday"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:textOff="T"
+            android:textOn="T"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thursday"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:textOff="F"
+            android:textOn="F"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/friday"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:textOff="S"
+            android:textOn="S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/saturday"
+            android:layout_weight="1" />
+
+        <ToggleButton
+            android:textOff="S"
+            android:textOn="S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sunday"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_below="@id/days">
+
+        <TextView
+            android:id="@+id/snooze_text"
+            android:text="@string/snooze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <EditText
+            android:id="@+id/email_address"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/minute_text"
+            android:text="@string/minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+    </LinearLayout>
+
+</RelativeLayout>

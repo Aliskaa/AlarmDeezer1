@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/header_background"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:menu="playlist" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="100sp"
+        android:text="@string/default_duration"
+        android:gravity="center"
+        android:id="@+id/time"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/time"
+        android:textSize="25sp"
+        android:text="@string/empty"
+        android:id="@+id/repeat" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25sp"
+            android:text="Artist"
+            android:id="@+id/artist" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25sp"
+            android:text="Track"
+            android:id="@+id/track" />
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/buttonSet"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/start"
+        android:textOn="@string/stop"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <include
+        android:id="@+id/player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        layout="@layout/audio_playback_common2" />
+
+</RelativeLayout>

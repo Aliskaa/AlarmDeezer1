@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="header_background">#AADDDDDD</color>
+    <color name="image_edges">#444</color>
+    <color name="text_main">#333</color>
+    <color name="text_second">#666</color>
+    <color name="player_background">#Fccc</color>
+    <color name="background_menu">#000000</color>
+</resources>

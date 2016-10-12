@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:icon="@drawable/ic_action_options"
+        android:showAsAction="ifRoom"
+        android:title="@string/options"
+        tools:ignore="AppCompatResource">
+        <menu>
+            <item
+                android:id="@+id/action_clock"
+                android:title="@string/clock"/>
+            <item
+                android:id="@+id/action_music"
+                android:title="@string/music"/>
+            <item
+                android:id="@+id/action_settings"
+                android:title="@string/settings"/>
+        </menu>
+    </item>
+
+</menu>
