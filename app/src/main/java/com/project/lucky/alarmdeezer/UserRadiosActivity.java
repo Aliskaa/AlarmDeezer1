@@ -64,9 +64,10 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
+                /*Intent intent;
                 intent = new Intent(UserRadiosActivity.this, MusicActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserRadiosActivity.this.finish();
             }
         });
 

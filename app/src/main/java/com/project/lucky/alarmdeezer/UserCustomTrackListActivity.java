@@ -53,9 +53,10 @@ public class UserCustomTrackListActivity extends PlayerActivity implements Playe
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
+                /*Intent intent;
                 intent = new Intent(UserCustomTrackListActivity.this, MusicActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserCustomTrackListActivity.this.finish();
             }
         });
 

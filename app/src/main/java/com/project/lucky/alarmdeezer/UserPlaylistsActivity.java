@@ -74,9 +74,10 @@ public class UserPlaylistsActivity extends PlayerActivity
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
+                /*Intent intent;
                 intent = new Intent(UserPlaylistsActivity.this, MusicActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserPlaylistsActivity.this.finish();
             }
         });
 

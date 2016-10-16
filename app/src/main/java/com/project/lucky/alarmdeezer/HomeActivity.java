@@ -41,11 +41,13 @@ public class HomeActivity extends BaseActivity {
     private Album mAlbum;
     private Artist mArtist;
     private String mType;
+    private SQL sql;
 
     private Option mOption;
 
     private static DecimalFormat nf = new DecimalFormat("00");
-    TextView textViewTime, textViewRepeat;
+    TextView textViewTime, textViewRepeat, textViewArtist, textViewTrack;
+    ImageView imageTrack;
 
 
     private static int timeHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -61,6 +63,11 @@ public class HomeActivity extends BaseActivity {
 
         textViewTime = (TextView) findViewById(R.id.time);
         textViewRepeat = (TextView) findViewById(R.id.repeat);
+        textViewArtist = (TextView) findViewById(R.id.text_artist);
+        textViewTrack = (TextView) findViewById(R.id.text_track);
+        imageTrack = (ImageView) findViewById(R.id.song_picture);
+
+        sql = new SQL();
 
         // Restore authentication
         new SessionStore().restore(mDeezerConnect, this);
@@ -107,6 +114,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void onPause() {
+        super.onPause();
 
     }
 
@@ -115,7 +123,8 @@ public class HomeActivity extends BaseActivity {
 
         Bundle b = getIntent().getExtras();
 
-        Log.i("Artist HomeActivity", "Track : "+String.valueOf(mTrack));
+        Log.i("Artist HomeActivity", "Album : "+String.valueOf(sql.getSqlAlbum()));
+        Log.i("Artist HomeActivity", "Bundle : "+String.valueOf(b));
 
         if(b != null) {
 
@@ -145,36 +154,36 @@ public class HomeActivity extends BaseActivity {
             switch (mType) {
                 case "class com.deezer.sdk.model.Track":
                     mTrack = b.getParcelable("song");
-                    ((TextView) findViewById(R.id.text_artist)).setText(mTrack.getArtist().getName());
-                    ((TextView) findViewById(R.id.text_track)).setText(mTrack.getTitle());
+                    textViewArtist.setText(mTrack.getArtist().getName());
+                    textViewTrack.setText(mTrack.getTitle());
                     Picasso.with(this).load(mTrack.getAlbum().getImageUrl(AImageOwner.ImageSize.medium))
                             .into((ImageView) findViewById(R.id.song_picture));
                     break;
 
                 case "class com.deezer.sdk.model.Playlist":
                     mPlaylist = b.getParcelable("song");
-                    ((TextView) findViewById(R.id.text_track)).setText(mPlaylist.getTitle());
+                    textViewTrack.setText(mPlaylist.getTitle());
                     Picasso.with(this).load(mPlaylist.getImageUrl(AImageOwner.ImageSize.medium))
-                            .into((ImageView) findViewById(R.id.song_picture));
+                            .into(imageTrack);
                     break;
 
                 case "class com.deezer.sdk.model.Album":
                     mAlbum = b.getParcelable("song");
-                    ((TextView) findViewById(R.id.text_track)).setText(mAlbum.getTitle());
+                    sql.setSqlAlbum(mObject);
+                    textViewTrack.setText(mAlbum.getTitle());
                     Picasso.with(this).load(mAlbum.getImageUrl(AImageOwner.ImageSize.medium))
-                            .into((ImageView) findViewById(R.id.song_picture));
+                            .into(imageTrack);
                     break;
 
                 case "class com.deezer.sdk.model.Artist":
                     mArtist = b.getParcelable("song");
-                    ((TextView) findViewById(R.id.text_track)).setText(mArtist.getName());
+                    textViewTrack.setText(mArtist.getName());
                     Picasso.with(this).load(mArtist.getImageUrl(AImageOwner.ImageSize.medium))
-                            .into((ImageView) findViewById(R.id.song_picture));
+                            .into(imageTrack);
                     break;
             }
         }
 
-        Log.i("Artist HomeActivity", "Bunble effacé !!!");
-        b.clear();
+
     }
 }

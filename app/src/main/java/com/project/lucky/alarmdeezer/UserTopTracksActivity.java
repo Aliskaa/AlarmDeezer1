@@ -63,12 +63,10 @@ public class UserTopTracksActivity extends PlayerActivity {
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
-                //Bundle b = new Bundle();
-                //b.putParcelable("song", mTrack);
+                /*Intent intent;
                 intent = new Intent(UserTopTracksActivity.this, MusicActivity.class);
-                //intent.putExtras(b);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserTopTracksActivity.this.finish();
             }
         });
 

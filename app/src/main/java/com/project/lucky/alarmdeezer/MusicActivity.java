@@ -42,12 +42,10 @@ public class MusicActivity extends BaseActivity {
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
-                Bundle b = new Bundle();
-                b.putParcelable("song", mTrack);
+                /*Intent intent;
                 intent = new Intent(MusicActivity.this, HomeActivity.class);
-                intent.putExtras(b);
-                startActivity(intent);
+                startActivity(intent);*/
+                MusicActivity.this.finish();
             }
         });
 
@@ -115,8 +113,6 @@ public class MusicActivity extends BaseActivity {
     private static final int RADIOS = 4;
     private static final int FLOW = 5;
     private static final int CUSTOM = 6;
-
-    private Track mTrack;
 
     /**
      * Navigates to another activity depending on what the user clicked on

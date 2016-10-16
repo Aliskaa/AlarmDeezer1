@@ -42,9 +42,10 @@ public class UserFlowActivity extends PlayerActivity implements RadioPlayerListe
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
+                /*Intent intent;
                 intent = new Intent(UserFlowActivity.this, MusicActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserFlowActivity.this.finish();
             }
         });
 

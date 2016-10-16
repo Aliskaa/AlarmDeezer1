@@ -64,9 +64,10 @@ public class UserAlbumsActivity extends PlayerActivity implements PlayerWrapperL
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
+                /*Intent intent;
                 intent = new Intent(UserAlbumsActivity.this, MusicActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserAlbumsActivity.this.finish();
             }
         });
 

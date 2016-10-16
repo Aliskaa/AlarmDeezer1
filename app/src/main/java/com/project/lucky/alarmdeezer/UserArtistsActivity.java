@@ -66,9 +66,10 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
 
             @Override
             public void onClick(final View v) {
-                Intent intent;
+                /*Intent intent;
                 intent = new Intent(UserArtistsActivity.this, MusicActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                UserArtistsActivity.this.finish();
             }
         });
 
