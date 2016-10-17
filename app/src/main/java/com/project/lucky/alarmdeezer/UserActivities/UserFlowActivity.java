@@ -1,6 +1,5 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UserActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -18,6 +17,8 @@ import com.deezer.sdk.player.RadioPlayer;
 import com.deezer.sdk.player.event.RadioPlayerListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 
 /**
  * Created by lucky on 10/10/16.

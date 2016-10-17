@@ -1,6 +1,5 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UserActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,6 +11,8 @@ import com.deezer.sdk.player.CustomTrackListPlayer;
 import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class UserCustomTrackListActivity extends PlayerActivity implements Playe
         setButtonEnabled(mButtonPlayerSeekBackward, true);
         setButtonEnabled(mButtonPlayerSeekForward, true);
         setButtonEnabled(mButtonPlayerSkipBackward, true);
-        setButtonEnabled(mButtonPlayerRepeat, true);
+        //setButtonEnabled(mButtonPlayerRepeat, true);
     }
 
     /**

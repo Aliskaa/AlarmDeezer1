@@ -1,6 +1,8 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UserActivities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.deezer.sdk.model.AImageOwner;
+import com.deezer.sdk.model.Artist;
 import com.deezer.sdk.model.PlayableEntity;
-import com.deezer.sdk.model.Radio;
 import com.deezer.sdk.model.Track;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.request.AsyncDeezerTask;
@@ -22,10 +25,13 @@ import com.deezer.sdk.network.request.DeezerRequest;
 import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
-import com.deezer.sdk.player.RadioPlayer;
+import com.deezer.sdk.player.ArtistRadioPlayer;
 import com.deezer.sdk.player.event.RadioPlayerListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.HomeActivity;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,17 +41,15 @@ import java.util.List;
  * Created by lucky on 10/10/16.
  */
 
-public class UserRadiosActivity extends PlayerActivity implements RadioPlayerListener {
+public class UserArtistsActivity extends PlayerActivity implements RadioPlayerListener {
 
-    /** The list of radios displayed by this activity. */
-    private List<Radio> mRadioList = new ArrayList<Radio>();
+    /** The list of artists of displayed by this activity. */
+    private List<Artist> mArtistsList = new ArrayList<Artist>();
 
-    /** The adapter of the main list view. */
-    private ArrayAdapter<Radio> mRadioAdapter;
+    /** the Artists list adapter */
+    private ArrayAdapter<Artist> mArtistsAdapter;
 
-    /** the Radio Player */
-    private RadioPlayer mRadioPlayer;
-
+    private ArtistRadioPlayer mArtistPlayer;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -54,54 +58,28 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
         // restore existing deezer Connection
         new SessionStore().restore(mDeezerConnect, this);
 
-
-        // setup UI
+        // Setup the UI
         setContentView(R.layout.tracklists_activity);
-        setupPlayerUI();
-        setupRadioList();
+        setupArtistsList();
+        setPlayerVisible(false);
+        //setupPlayerUI();
 
         findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(final View v) {
                 /*Intent intent;
-                intent = new Intent(UserRadiosActivity.this, MusicActivity.class);
+                intent = new Intent(UserArtistsActivity.this, MusicActivity.class);
                 startActivity(intent);*/
-                UserRadiosActivity.this.finish();
+                UserArtistsActivity.this.finish();
             }
         });
 
         //build the player
-        createPlayer();
+        //createPlayer();
 
-        // fetch radio list
-        searchAllRadioCategory();
-    }
-
-
-    /**
-     * Creates the Radio Player
-     */
-    private void createPlayer() {
-        try {
-            mRadioPlayer = new RadioPlayer(getApplication(), mDeezerConnect,
-                    new WifiAndMobileNetworkStateChecker());
-            mRadioPlayer.addPlayerListener(this);
-            setAttachedPlayer(mRadioPlayer);
-        }
-        catch (DeezerError e) {
-            handleError(e);
-        }
-        catch (TooManyPlayersExceptions e) {
-            handleError(e);
-        }
-    }
-
-    @Override
-    protected void onSkipToNextTrack() {
-        super.onSkipToNextTrack();
-
-        mRadioPlayer.skipToNextTrack();
+        // fetch artists list
+        getUserArtists();
     }
 
     /**
@@ -118,16 +96,17 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
         setButtonEnabled(mButtonPlayerRepeat, false);
     }
 
+
     /**
-     * Setup the expandable list view
+     * Setup the List UI
      */
-    private void setupRadioList() {
-        mRadioAdapter = new ArrayAdapter<Radio>(this,
-                R.layout.item_title_cover, mRadioList) {
+    private void setupArtistsList() {
+        mArtistsAdapter = new ArrayAdapter<Artist>(this,
+                R.layout.item_title_cover, mArtistsList) {
 
             @Override
             public View getView(final int position, final View convertView, final ViewGroup parent) {
-                Radio radio = getItem(position);
+                Artist artist = getItem(position);
 
                 View view = convertView;
                 if (view == null) {
@@ -137,33 +116,74 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
 
 
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setText(radio.getTitle());
+                textView.setText(artist.getName());
 
                 ImageView imageView = (ImageView) view.findViewById(android.R.id.icon);
-                Picasso.with(UserRadiosActivity.this).load(radio.getPictureUrl()).into(imageView);
+                Picasso.with(UserArtistsActivity.this).load(artist.getImageUrl(AImageOwner.ImageSize.medium))
+                        .into(imageView);
+
 
                 return view;
             }
         };
         ListView listview = (ListView) findViewById(android.R.id.list);
-        listview.setAdapter(mRadioAdapter);
+        listview.setAdapter(mArtistsAdapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view,
                                     final int position, final long id) {
-                Radio radio = mRadioList.get(position);
-                mRadioPlayer.playRadio(radio.getId());
-                setPlayerVisible(true);
+                final Artist artist = mArtistsList.get(position);
+                //mArtistPlayer.playArtistRadio(artist.getId());
+                //setPlayerVisible(true);
+
+                new AlertDialog.Builder(UserArtistsActivity.this)
+                        .setTitle("Choice")
+                        .setMessage("Album : " + artist.getName())
+                        .setCancelable(false)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent;
+                                Bundle b = new Bundle();
+                                b.putParcelable("song", artist);
+                                intent = new Intent(UserArtistsActivity.this, HomeActivity.class);
+                                intent.putExtras(b);
+                                startActivity(intent);
+                                UserArtistsActivity.this.finish();
+                            }
+                        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Whatever...
+                    }
+                }).create().show();
             }
         });
     }
+    /**
+     * Creates the PlaylistPlayer
+     */
+    private void createPlayer() {
+        try {
+            mArtistPlayer = new ArtistRadioPlayer(getApplication(), mDeezerConnect,
+                    new WifiAndMobileNetworkStateChecker());
+            mArtistPlayer.addPlayerListener(this);
+            setAttachedPlayer(mArtistPlayer);
+        }
+        catch (TooManyPlayersExceptions e) {
+            handleError(e);
+        }
+        catch (DeezerError e) {
+            handleError(e);
+        }
+    }
 
     /**
-     * Search for all radios splitted by genre
+     * Search for all artists splitted by genre
      */
-    private void searchAllRadioCategory() {
-        DeezerRequest request = DeezerRequestFactory.requestCurrentUserRadios();
+    private void getUserArtists() {
+        DeezerRequest request = DeezerRequestFactory.requestCurrentUserArtists();
         AsyncDeezerTask task = new AsyncDeezerTask(mDeezerConnect,
                 new JsonRequestListener() {
 
@@ -171,28 +191,27 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
                     @Override
                     public void onResult(final Object result, final Object requestId) {
 
-                        mRadioList.clear();
+                        mArtistsList.clear();
 
                         try {
-                            mRadioList.addAll((List<Radio>) result);
+                            mArtistsList.addAll((List<Artist>) result);
                         }
                         catch (ClassCastException e) {
                             handleError(e);
                         }
-                        if (mRadioList.isEmpty()) {
-                            Toast.makeText(UserRadiosActivity.this, getResources()
+
+                        if (mArtistsList.isEmpty()) {
+                            Toast.makeText(UserArtistsActivity.this, getResources()
                                     .getString(R.string.no_results), Toast.LENGTH_LONG).show();
                         }
 
-                        mRadioAdapter.notifyDataSetChanged();
+                        mArtistsAdapter.notifyDataSetChanged();
                     }
-
 
                     @Override
                     public void onUnparsedResult(final String response, final Object requestId) {
                         handleError(new DeezerError("Unparsed reponse"));
                     }
-
 
 
                     @Override
@@ -206,10 +225,20 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
         task.execute(request);
     }
 
+    @Override
+    protected void onSkipToNextTrack() {
+        mArtistPlayer.skipToNextTrack();
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////
-    // Radio Player Callbacks
+    // Player listener
     //////////////////////////////////////////////////////////////////////////////////////
 
+    @Override
+    public void onTooManySkipsException() {
+        Toast.makeText(this, R.string.deezer_too_many_skips,
+                Toast.LENGTH_LONG).show();
+    }
 
     public void onPlayTrack(final Track track) {
         displayTrack(track);
@@ -232,14 +261,10 @@ public class UserRadiosActivity extends PlayerActivity implements RadioPlayerLis
 
     }
 
+
     @Override
     public void onRequestException(final Exception e, final Object requestId) {
         handleError(e);
     }
-
-    @Override
-    public void onTooManySkipsException() {
-        Toast.makeText(this, R.string.deezer_too_many_skips,
-                Toast.LENGTH_LONG).show();
-    }
 }
+

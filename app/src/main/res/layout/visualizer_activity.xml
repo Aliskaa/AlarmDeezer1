@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         layout="@layout/audio_playback_common" />
 
-    <com.project.lucky.alarmdeezer.FFTView
+    <com.project.lucky.alarmdeezer.UtilityActivities.FFTView
         android:id="@+id/fftView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_margin="8dp"
         android:visibility="gone" />
 
-    <com.project.lucky.alarmdeezer.WaveformView
+    <com.project.lucky.alarmdeezer.UtilityActivities.WaveformView
         android:id="@+id/wfView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UtilityActivities;
 
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import com.deezer.sdk.player.RadioPlayer;
 import com.deezer.sdk.player.event.RadioPlayerListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 
 import java.util.Arrays;
 

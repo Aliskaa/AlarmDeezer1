@@ -1,4 +1,4 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UserActivities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,9 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.deezer.sdk.model.AImageOwner;
-import com.deezer.sdk.model.Artist;
 import com.deezer.sdk.model.PlayableEntity;
+import com.deezer.sdk.model.Playlist;
 import com.deezer.sdk.model.Track;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.request.AsyncDeezerTask;
@@ -26,28 +25,41 @@ import com.deezer.sdk.network.request.DeezerRequest;
 import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
-import com.deezer.sdk.player.ArtistRadioPlayer;
-import com.deezer.sdk.player.event.RadioPlayerListener;
+import com.deezer.sdk.player.PlaylistPlayer;
+import com.deezer.sdk.player.event.OnPlayerProgressListener;
+import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.HomeActivity;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lucky on 10/10/16.
+ * Created by lucky on 07/10/16.
  */
 
-public class UserArtistsActivity extends PlayerActivity implements RadioPlayerListener {
+public class UserPlaylistsActivity extends PlayerActivity
+        implements
+        PlayerWrapperListener,
+        OnPlayerProgressListener {
 
-    /** The list of artists of displayed by this activity. */
-    private List<Artist> mArtistsList = new ArrayList<Artist>();
+    /** The list of playlists of displayed by this activity. */
+    private List<Playlist> mPlaylistList = new ArrayList<Playlist>();
 
-    /** the Artists list adapter */
-    private ArrayAdapter<Artist> mArtistsAdapter;
+    /** the Playlists list adapter */
+    private ArrayAdapter<Playlist> mPlaylistAdapter;
+    private PlaylistPlayer mPlaylistPlayer;
 
-    private ArtistRadioPlayer mArtistPlayer;
+    private enum Option {
+        none,
+        fade_in_out,
+    }
+
+    private Option mOption;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -58,53 +70,67 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
 
         // Setup the UI
         setContentView(R.layout.tracklists_activity);
-        setupArtistsList();
+        setupPlaylistsList();
         setPlayerVisible(false);
-        //setupPlayerUI();
 
         findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(final View v) {
                 /*Intent intent;
-                intent = new Intent(UserArtistsActivity.this, MusicActivity.class);
+                intent = new Intent(UserPlaylistsActivity.this, MusicActivity.class);
                 startActivity(intent);*/
-                UserArtistsActivity.this.finish();
+                UserPlaylistsActivity.this.finish();
             }
         });
 
         //build the player
         //createPlayer();
 
-        // fetch artists list
-        getUserArtists();
+        // fetch radio list
+        getUserPlaylists();
+
+        mOption = Option.none;
     }
 
-    /**
-     * Sets up the player UI (mostly remove unnecessary buttons)
-     */
-    private void setupPlayerUI() {
-        // for now hide the player
-        setPlayerVisible(false);
 
-        // disable unnecesary buttons
-        setButtonEnabled(mButtonPlayerSeekBackward, false);
-        setButtonEnabled(mButtonPlayerSeekForward, false);
-        setButtonEnabled(mButtonPlayerSkipBackward, false);
-        setButtonEnabled(mButtonPlayerRepeat, false);
+    /*@Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.playlist, menu);
+        return true;
     }
 
+    @Override
+    @TargetApi(11)
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        boolean res = true;
+
+        switch (item.getItemId()) {
+            case R.id.action_none:
+                mOption = Option.none;
+                break;
+            case R.id.action_fade_in_out:
+                mOption = Option.fade_in_out;
+                break;
+            default:
+                res = super.onOptionsItemSelected(item);
+                break;
+        }
+        return res;
+    }*/
 
     /**
      * Setup the List UI
      */
-    private void setupArtistsList() {
-        mArtistsAdapter = new ArrayAdapter<Artist>(this,
-                R.layout.item_title_cover, mArtistsList) {
+    private void setupPlaylistsList() {
+        mPlaylistAdapter = new ArrayAdapter<Playlist>(this,
+                R.layout.item_title_cover, mPlaylistList) {
 
             @Override
             public View getView(final int position, final View convertView, final ViewGroup parent) {
-                Artist artist = getItem(position);
+                Playlist playlist = getItem(position);
 
                 View view = convertView;
                 if (view == null) {
@@ -114,40 +140,40 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
 
 
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setText(artist.getName());
+                textView.setText(playlist.getTitle());
 
                 ImageView imageView = (ImageView) view.findViewById(android.R.id.icon);
-                Picasso.with(UserArtistsActivity.this).load(artist.getImageUrl(AImageOwner.ImageSize.medium))
+                Picasso.with(UserPlaylistsActivity.this).load(playlist.getPictureUrl())
                         .into(imageView);
-
 
                 return view;
             }
         };
         ListView listview = (ListView) findViewById(android.R.id.list);
-        listview.setAdapter(mArtistsAdapter);
+        listview.setAdapter(mPlaylistAdapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view,
                                     final int position, final long id) {
-                final Artist artist = mArtistsList.get(position);
-                //mArtistPlayer.playArtistRadio(artist.getId());
+                final Playlist playlist = mPlaylistList.get(position);
+                //mPlaylistPlayer.playPlaylist(playlist.getId());
                 //setPlayerVisible(true);
 
-                new AlertDialog.Builder(UserArtistsActivity.this)
+                new AlertDialog.Builder(UserPlaylistsActivity.this)
                         .setTitle("Choice")
-                        .setMessage("Album : " + artist.getName())
+                        .setMessage("Playlist : " + playlist.getTitle())
                         .setCancelable(false)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent;
                                 Bundle b = new Bundle();
-                                b.putParcelable("song", artist);
-                                intent = new Intent(UserArtistsActivity.this, HomeActivity.class);
+                                b.putParcelable("song", playlist);
+                                intent = new Intent(UserPlaylistsActivity.this, HomeActivity.class);
                                 intent.putExtras(b);
                                 startActivity(intent);
+                                UserPlaylistsActivity.this.finish();
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
                     @Override
@@ -155,6 +181,7 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
                         // Whatever...
                     }
                 }).create().show();
+
             }
         });
     }
@@ -163,10 +190,11 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
      */
     private void createPlayer() {
         try {
-            mArtistPlayer = new ArtistRadioPlayer(getApplication(), mDeezerConnect,
+            mPlaylistPlayer = new PlaylistPlayer(getApplication(), mDeezerConnect,
                     new WifiAndMobileNetworkStateChecker());
-            mArtistPlayer.addPlayerListener(this);
-            setAttachedPlayer(mArtistPlayer);
+            mPlaylistPlayer.addPlayerListener(this);
+            mPlaylistPlayer.addOnPlayerProgressListener(this);
+            setAttachedPlayer(mPlaylistPlayer);
         }
         catch (TooManyPlayersExceptions e) {
             handleError(e);
@@ -177,10 +205,10 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
     }
 
     /**
-     * Search for all artists splitted by genre
+     * Search for all radios splitted by genre
      */
-    private void getUserArtists() {
-        DeezerRequest request = DeezerRequestFactory.requestCurrentUserArtists();
+    private void getUserPlaylists() {
+        DeezerRequest request = DeezerRequestFactory.requestCurrentUserPlaylists();
         AsyncDeezerTask task = new AsyncDeezerTask(mDeezerConnect,
                 new JsonRequestListener() {
 
@@ -188,21 +216,21 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
                     @Override
                     public void onResult(final Object result, final Object requestId) {
 
-                        mArtistsList.clear();
+                        mPlaylistList.clear();
 
                         try {
-                            mArtistsList.addAll((List<Artist>) result);
+                            mPlaylistList.addAll((List<Playlist>) result);
                         }
                         catch (ClassCastException e) {
                             handleError(e);
                         }
 
-                        if (mArtistsList.isEmpty()) {
-                            Toast.makeText(UserArtistsActivity.this, getResources()
+                        if (mPlaylistList.isEmpty()) {
+                            Toast.makeText(UserPlaylistsActivity.this, getResources()
                                     .getString(R.string.no_results), Toast.LENGTH_LONG).show();
                         }
 
-                        mArtistsAdapter.notifyDataSetChanged();
+                        mPlaylistAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -224,21 +252,24 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
 
     @Override
     protected void onSkipToNextTrack() {
-        mArtistPlayer.skipToNextTrack();
+        mPlaylistPlayer.skipToNextTrack();
     }
+
+    @Override
+    protected void onSkipToPreviousTrack() {
+        mPlaylistPlayer.skipToPreviousTrack();
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Player listener
     //////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public void onTooManySkipsException() {
-        Toast.makeText(this, R.string.deezer_too_many_skips,
-                Toast.LENGTH_LONG).show();
-    }
-
     public void onPlayTrack(final Track track) {
         displayTrack(track);
+        if (mOption == Option.fade_in_out) {
+            applyFadeInOut(0);
+        }
     }
 
     public void onTrackEnded(final Track track) {
@@ -258,10 +289,59 @@ public class UserArtistsActivity extends PlayerActivity implements RadioPlayerLi
 
     }
 
-
     @Override
     public void onRequestException(final Exception e, final Object requestId) {
         handleError(e);
     }
-}
 
+    @Override
+    public void onPlayerProgress(final long timePosition) {
+        switch (mOption) {
+            case fade_in_out:
+                applyFadeInOut(timePosition);
+            case none:
+            default:
+                break;
+        }
+    }
+
+    private static final long FADE_DURATION = 5000;
+
+    private static final long PROGRESS_LONG = 1000L;
+    private static final long PROGRESS_SMALL = 50L;
+
+    private long mProgressInterval = 1000;
+
+    private void applyFadeInOut(final long timePosition) {
+        long trackDuration = mPlaylistPlayer.getTrackDuration();
+
+        float factor = 1.0f / FADE_DURATION;
+
+        if (trackDuration > (FADE_DURATION * 2)) {
+            float volume;
+            if (timePosition < FADE_DURATION) {
+                // Fade in
+                volume = timePosition * factor;
+            } else if (timePosition > (trackDuration - FADE_DURATION)) {
+                volume = (trackDuration - timePosition) * factor;
+            } else {
+                volume = 1.0f;
+            }
+
+            if ((mProgressInterval == PROGRESS_LONG) && ((timePosition < FADE_DURATION)
+                    || (timePosition >= (trackDuration - FADE_DURATION - PROGRESS_LONG)))) {
+                mProgressInterval = PROGRESS_SMALL;
+                mPlaylistPlayer.setPlayerProgressInterval(mProgressInterval);
+            } else if ((mProgressInterval == PROGRESS_SMALL)
+                    && (timePosition > (FADE_DURATION + PROGRESS_SMALL))) {
+                mProgressInterval = PROGRESS_LONG;
+                mPlaylistPlayer.setPlayerProgressInterval(mProgressInterval);
+            }
+
+            volume *= volume;
+            Log.i("Volume", "Set volume to " + volume);
+            mPlaylistPlayer.setStereoVolume(volume, volume);
+        }
+
+    }
+}

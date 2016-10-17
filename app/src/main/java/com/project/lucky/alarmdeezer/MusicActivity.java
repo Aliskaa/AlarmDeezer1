@@ -2,7 +2,6 @@ package com.project.lucky.alarmdeezer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.deezer.sdk.model.AImageOwner;
-import com.deezer.sdk.model.Track;
 import com.deezer.sdk.model.User;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.request.AsyncDeezerTask;
@@ -19,10 +17,11 @@ import com.deezer.sdk.network.request.DeezerRequest;
 import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
+import com.project.lucky.alarmdeezer.UserActivities.UserAlbumsActivity;
+import com.project.lucky.alarmdeezer.UserActivities.UserArtistsActivity;
+import com.project.lucky.alarmdeezer.UserActivities.UserPlaylistsActivity;
+import com.project.lucky.alarmdeezer.UserActivities.UserTopTracksActivity;
 import com.squareup.picasso.Picasso;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by lucky on 07/10/16.
@@ -42,9 +41,9 @@ public class MusicActivity extends BaseActivity {
 
             @Override
             public void onClick(final View v) {
-                /*Intent intent;
+                Intent intent;
                 intent = new Intent(MusicActivity.this, HomeActivity.class);
-                startActivity(intent);*/
+                startActivity(intent);
                 MusicActivity.this.finish();
             }
         });

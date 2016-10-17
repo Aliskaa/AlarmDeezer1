@@ -6,7 +6,9 @@
     android:background="@color/header_background"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:menu="playlist" >
+    tools:menu="playlist"
+    xmlns:com.deezer.sdk.tools="http://schemas.android.com/com.deezer.sdk.tools"
+    com.deezer.sdk.tools:context="com.deezer.sdk.sample.RadiosActivity" >
 
     <TextView
         android:layout_width="match_parent"
@@ -65,5 +67,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         layout="@layout/audio_playback_common2" />
+
 
 </RelativeLayout>

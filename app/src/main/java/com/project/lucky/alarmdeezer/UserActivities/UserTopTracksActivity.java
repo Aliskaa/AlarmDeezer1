@@ -1,4 +1,4 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UserActivities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.deezer.sdk.model.PlayableEntity;
 import com.deezer.sdk.model.Track;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.request.AsyncDeezerTask;
@@ -23,10 +22,9 @@ import com.deezer.sdk.network.request.DeezerRequest;
 import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
-import com.deezer.sdk.player.TrackPlayer;
-import com.deezer.sdk.player.event.PlayerWrapperListener;
-import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
-import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.HomeActivity;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +139,7 @@ public class UserTopTracksActivity extends PlayerActivity {
                             intent = new Intent(UserTopTracksActivity.this, HomeActivity.class);
                             intent.putExtras(b);
                             startActivity(intent);
+                            UserTopTracksActivity.this.finish();
                         }
                     }).setNegativeButton("no", new DialogInterface.OnClickListener() {
                         @Override

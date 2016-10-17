@@ -11,11 +11,11 @@
     <!-- Enable the device to keep the screen on when music is playing -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <!-- Enable using the Visualizer -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -33,9 +33,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Alarm receiver -->
+        <receiver android:name=".AlarmReceiver"/>
+
         <!-- Clock activity -->
         <activity
-            android:name=".OptionsActivity"
+            android:name=".ClockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
@@ -53,51 +56,55 @@
 
         <!-- Visualizer activity -->
         <activity
-            android:name=".VisualizerActivity"
+            android:name=".UtilityActivities.VisualizerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserPlaylists activity -->
         <activity
-            android:name=".UserPlaylistsActivity"
+            android:name=".UserActivities.UserPlaylistsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserAlbums activity -->
         <activity
-            android:name=".UserAlbumsActivity"
+            android:name=".UserActivities.UserAlbumsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserArtists activity -->
         <activity
-            android:name=".UserArtistsActivity"
+            android:name=".UserActivities.UserArtistsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserRadios activity -->
         <activity
-            android:name=".UserRadiosActivity"
+            android:name=".UserActivities.UserRadiosActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserTopTracks activity -->
         <activity
-            android:name=".UserTopTracksActivity"
+            android:name=".UserActivities.UserTopTracksActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserFlow activity -->
         <activity
-            android:name=".UserFlowActivity"
+            android:name=".UserActivities.UserFlowActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DeezerDemoThemeNoBar"/>
 
         <!-- UserCustomTrackList activity -->
         <activity
-            android:name=".UserCustomTrackListActivity"
+            android:name=".UserActivities.UserCustomTrackListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/DeezerDemoThemeNoBar"/>
+            android:theme="@style/DeezerDemoThemeNoBar"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

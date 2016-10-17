@@ -13,8 +13,8 @@ import android.widget.Toast;
 import com.deezer.sdk.model.Permissions;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.connect.event.DialogListener;
-
-import static com.project.lucky.alarmdeezer.LoginActivity.PERMISSIONS;
+import com.project.lucky.alarmdeezer.UtilityActivities.EqualizerActivity;
+import com.project.lucky.alarmdeezer.UtilityActivities.VisualizerActivity;
 
 /**
  * Created by lucky on 07/10/16.

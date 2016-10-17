@@ -1,4 +1,4 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UtilityActivities;
 
 import android.content.Context;
 import android.graphics.Canvas;

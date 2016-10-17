@@ -1,4 +1,4 @@
-package com.project.lucky.alarmdeezer;
+package com.project.lucky.alarmdeezer.UserActivities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,6 +29,9 @@ import com.deezer.sdk.player.AlbumPlayer;
 import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+import com.project.lucky.alarmdeezer.HomeActivity;
+import com.project.lucky.alarmdeezer.PlayerActivity;
+import com.project.lucky.alarmdeezer.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -114,7 +117,7 @@ public class UserAlbumsActivity extends PlayerActivity implements PlayerWrapperL
             public void onItemClick(final AdapterView<?> parent, final View view,
                                     final int position, final long id) {
                 final Album album = mAlbumsList.get(position);
-                //mAlbumPlayer.playAlbum(album.getId(), 104);
+                //mAlbumPlayer.playAlbum(album.getId());
                 //setPlayerVisible(true);
 
                 Log.i("Artist AlbumActivity", album.getTitle());
@@ -134,6 +137,7 @@ public class UserAlbumsActivity extends PlayerActivity implements PlayerWrapperL
                                 intent = new Intent(UserAlbumsActivity.this, HomeActivity.class);
                                 intent.putExtras(b);
                                 startActivity(intent);
+                                UserAlbumsActivity.this.finish();
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
                     @Override
