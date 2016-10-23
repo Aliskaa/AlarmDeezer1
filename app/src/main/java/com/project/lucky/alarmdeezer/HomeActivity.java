@@ -124,6 +124,7 @@ public class HomeActivity extends BaseActivity {
 
     private static int timeHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     private static int timeMinute = Calendar.getInstance().get(Calendar.MINUTE);
+    private static int snooze = 5;
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -328,6 +329,7 @@ public class HomeActivity extends BaseActivity {
 
         timeHour = getIntent().getIntExtra("timeHour", timeHour);
         timeMinute = getIntent().getIntExtra("timeMinute", timeMinute);
+        snooze = getIntent().getIntExtra("snooze", snooze);
 
         textViewTime.setText(nf.format(timeHour) + ":" + nf.format(timeMinute));
 
@@ -464,7 +466,8 @@ public class HomeActivity extends BaseActivity {
         calendar.set(Calendar.HOUR_OF_DAY, timeHour);
         calendar.set(Calendar.MINUTE, timeMinute);
         createPlayer();
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * snooze, pendingIntent);
         Log.i("Artist", "Alarme activée");
         Log.i("Artist", String.valueOf(timeHour) + String.valueOf(timeMinute));
     }

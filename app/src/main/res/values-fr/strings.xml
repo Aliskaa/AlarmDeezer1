@@ -1,0 +1,44 @@
+<resources>
+
+    <string name="app_name"> Réveil avec Deezer </string>
+    <string name="activity_radio"> Radios Deezer </string>
+    <string name="activity_home"> %1$s - Home </string>
+
+    <!-- Widgets -->
+    <string name="empty">  </string>
+    <string name="default_duration"> 0:00 </string>
+    <string name="login"> Connexion Deezer </string>
+    <string name="logout"> Déconnexion </string>
+    <string name="visualizer_wf"> Waveform </string>
+    <string name="visualizer_fft"> FFT </string>
+    <string name="equalizer"> Equalizer </string>
+    <string name="unloggedRadios"> Radios (sans connexion) </string>
+
+    <!-- Playlist Options -->
+    <string name="options"> Options </string>
+    <string name="start"> Lancer </string>
+    <string name="stop"> Stop </string>
+    <string name="none"> Vide </string>
+    <string name="clock"> Horloge </string>
+    <string name="music"> Musique </string>
+    <string name="settings"> Configurations </string>
+    <string name="hour"> Heure </string>
+    <string name="Options_sens"> Envoyer </string>
+    <string name="repeat"> Répéter </string>
+    <string name="snooze"> Snooze : </string>
+    <string name="minute"> min </string>
+    <string name="fade_in_out"> Fade in / Fade out </string>
+    <string name="notification"> Notification </string>
+    <string name="Cancel"> Annuler </string>
+
+    <!-- Error messages -->
+    <string name="no_results"> Pas de résultats trouvés </string>
+    <string name="deezer_error_during_login"> Erreur Deezer durant la connexion </string>
+    <string name="deezer_too_many_skips"> You have skipped too many tracks in this radio. Skip will be disabled for a while </string>
+    <string name="invalid_credentials"> Comptes invalides </string>
+    <string name="login_cancelled"> Coonexion annulée </string>
+    <string name="ui_custom_track_list"> This activity plays a custom list of tracks </string>
+    <string name="ui_user_flow"> This activity plays a custom list of tracks </string>
+    <string name="bass"> Bass Freqs. </string>
+    <string name="treble"> Treble Freqs. </string>
+</resources>

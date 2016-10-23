@@ -111,9 +111,10 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
         <EditText
-            android:id="@+id/email_address"
+            android:id="@+id/snooze"
             android:layout_width="53dp"
             android:layout_height="wrap_content"
+            android:text="5"
             android:inputType="number" />
 
         <TextView
